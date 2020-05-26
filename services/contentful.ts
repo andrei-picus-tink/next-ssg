@@ -10,7 +10,7 @@ export const client = createClient({
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN!,
 });
 
-export const fetchEntries = async () => {
+export const fetchPosts = async () => {
   const entries = await client.getEntries<ContentfulPost>();
 
   return entries.items;

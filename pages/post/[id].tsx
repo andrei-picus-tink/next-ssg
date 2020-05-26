@@ -1,19 +1,18 @@
 import React from "react";
 import { Post } from "../../components/post";
-import {
-  client,
-  ContentfulPost,
-  fetchEntries,
-} from "../../services/contentful";
+import { client, ContentfulPost, fetchPosts } from "../../services/contentful";
 import { Entry } from "contentful";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
+// Statically generate all posts that exist at build time.
+// New posts will be fetched and statically generated at runtime.
 export async function getStaticPaths() {
-  const posts = await fetchEntries();
+  const posts = await fetchPosts();
 
   const paths = posts.map((post) => `/post/${post.sys.id}`);
 
-  return { paths, fallback: false };
+  return { paths, fallback: true };
 }
 
 export const getStaticProps = async ({
@@ -30,14 +29,22 @@ export const getStaticProps = async ({
   };
 };
 
-const PostPage: React.FC<{ post: Entry<ContentfulPost> }> = ({ post }) => (
-  <>
-    <Link href="/">
-      <a>Home</a>
-    </Link>
-    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-    <Post {...post.fields} />
-  </>
-);
+const PostPage: React.FC<{ post: Entry<ContentfulPost> }> = ({ post }) => {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <span>Loading...</span>;
+  }
+
+  return (
+    <>
+      <Link href="/">
+        <a>Home</a>
+      </Link>
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <Post {...post.fields} />
+    </>
+  );
+};
 
 export default PostPage;
