@@ -1,0 +1,18 @@
+{
+  "extends": "@tdd-buffet/tsconfig/src/tsconfig",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "noEmit": true,
+    "module": "esnext",
+    "isolatedModules": true,
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
+}
