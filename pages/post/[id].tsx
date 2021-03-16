@@ -10,7 +10,9 @@ import { useRouter } from "next/router";
 export async function getStaticPaths() {
   const posts = await fetchPosts();
 
-  const paths = posts.map((post) => `/post/${post.sys.id}`);
+  const paths = posts.map((post) => ({
+    params: { id: `/post/${post.sys.id}` },
+  }));
 
   return { paths, fallback: true };
 }
