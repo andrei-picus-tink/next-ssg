@@ -11,7 +11,7 @@ export async function getStaticPaths() {
   const posts = await fetchPosts();
 
   const paths = posts.map((post) => ({
-    params: { id: `/post/${post.sys.id}` },
+    params: { id: post.sys.id },
   }));
 
   return { paths, fallback: true };
